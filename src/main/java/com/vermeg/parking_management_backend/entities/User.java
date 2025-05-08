@@ -1,27 +1,35 @@
 package com.vermeg.parking_management_backend.entities;
 
 import jakarta.persistence.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // Explicitly maps to the "id" column
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "first_name", length = 255) // Maps to first_name
+    @Column(name = "first_name", length = 255)
     private String firstName;
 
-    @Column(name = "last_name", length = 255) // Maps to last_name
+    @Column(name = "last_name", length = 255)
     private String lastName;
 
-    @Column(name = "email", length = 255) // Maps to email
+    @Column(name = "email", length = 255)
     private String email;
 
-    @Column(name = "phone_number", length = 255) // Maps to phone_number
+    @Column(name = "phone_number", length = 255)
     private String phoneNumber;
+
+    // PrePersist callback to generate random ID
+    @PrePersist
+    public void generateId() {
+        if (this.id == null) {
+            this.id = ThreadLocalRandom.current().nextLong(1, 10001);
+        }
+    }
 
     // Getters and setters
     public Long getId() { return id; }

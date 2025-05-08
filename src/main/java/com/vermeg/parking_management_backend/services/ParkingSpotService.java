@@ -28,8 +28,6 @@ public class ParkingSpotService {
         Optional<ParkingSpot> optionalParkingSpot = parkingSpotRepo.findById(id);
         if (optionalParkingSpot.isPresent()) {
             ParkingSpot existingParkingSpot = optionalParkingSpot.get();
-            existingParkingSpot.setDepartment(updatedParkingSpot.getDepartment());
-            existingParkingSpot.setNumber(updatedParkingSpot.getNumber());
             existingParkingSpot.setAvailable(updatedParkingSpot.isAvailable());
             return parkingSpotRepo.save(existingParkingSpot);
         }else {
