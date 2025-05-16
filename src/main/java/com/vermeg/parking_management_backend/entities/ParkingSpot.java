@@ -19,13 +19,6 @@ public class ParkingSpot {
     @Column(name = "isAvailable")
     private Boolean isAvailable;
 
-    // PrePersist callback to generate random ID
-    @PrePersist
-    public void generateId() {
-        if (this.id == null) {
-            this.id = ThreadLocalRandom.current().nextLong(1, 10001);
-        }
-    }
 
     // Getters and setters
     public Long getId() { return id; }

@@ -3,7 +3,10 @@ package com.vermeg.parking_management_backend.services;
 import com.vermeg.parking_management_backend.entities.User;
 import com.vermeg.parking_management_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,34 +21,43 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUserById(Long id) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            return optionalUser.get();
-        } else {
-            throw new RuntimeException("User not found with id: " + id);
-        }
+    public User getUserById(String id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
 
     public User createUser(User newUser) {
-        return userRepository.save(newUser);
-    }
+        try {
+            // Validate required fields
+            if (!StringUtils.hasText(newUser.getId())) {
+                throw new IllegalArgumentException("User ID is required");
+            }
+            if (userRepository.existsById(newUser.getId())) {
+                throw new IllegalArgumentException("User ID already exists");
+            }
+            if (!StringUtils.hasText(newUser.getEmail())) {
+                throw new IllegalArgumentException("Email is required");
+            }
 
-    public User updateUser(Long id, User updatedUser) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User existingUser = optionalUser.get();
-            existingUser.setFirstName(updatedUser.getFirstName());
-            existingUser.setLastName(updatedUser.getLastName());
-            existingUser.setEmail(updatedUser.getEmail());
-            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
-            return userRepository.save(existingUser);
-        } else {
-            throw new RuntimeException("User not found with id: " + id);
+            return userRepository.save(newUser);
+        } catch (Exception e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Failed to create user: " + e.getMessage()
+            );
         }
     }
 
-    public void deleteUser(Long id) {
+    public User updateUser(String id, User updatedUser) {
+        User existingUser = getUserById(id); // Will throw if not found
+        existingUser.setFirstName(updatedUser.getFirstName());
+        existingUser.setLastName(updatedUser.getLastName());
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        return userRepository.save(existingUser);
+    }
+
+    public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
 }
