@@ -34,7 +34,7 @@ public class ParkingSpotController {
     @ApiResponse(responseCode = "200", description = "Successfully retrieved parking spots")
     @ApiResponse(responseCode = "500", description = "Internal server error")
     public ResponseEntity<List<ParkingSpot>> getAllParkingSpots() {
-        List<ParkingSpot> spots = parkingSpotService.getAllParkingSpots();
+        List<ParkingSpot> spots = parkingSpotService.getAllSpotsSortedById();
         return ResponseEntity.ok(spots);
     }
 

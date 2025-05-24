@@ -51,7 +51,6 @@ public class UserService {
         User existingUser = getUserById(id); // Will throw if not found
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setEmail(updatedUser.getEmail());
         existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
         return userRepository.save(existingUser);
     }

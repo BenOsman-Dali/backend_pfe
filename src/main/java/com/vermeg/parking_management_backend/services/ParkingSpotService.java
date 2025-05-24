@@ -15,8 +15,8 @@ public class ParkingSpotService {
         this.parkingSpotRepo = parkingSpotRepo;
     }
 
-    public List<ParkingSpot> getAllParkingSpots() {
-        return parkingSpotRepo.findAll();
+    public List<ParkingSpot> getAllSpotsSortedById() {
+        return parkingSpotRepo.findAllSortedById();
     }
 
     public ParkingSpot getParkingSpotById(Long id) {

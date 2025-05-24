@@ -1,8 +1,6 @@
 package com.vermeg.parking_management_backend.entities;
 import jakarta.persistence.*;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 @Entity
 @Table(name = "spots")
 public class ParkingSpot {
@@ -16,8 +14,8 @@ public class ParkingSpot {
     @Column(name = "number")
     private int number;
 
-    @Column(name = "isAvailable")
-    private Boolean isAvailable;
+    @Column(name = "\"isAvailable\"")
+    private boolean isAvailable;
 
 
     // Getters and setters
