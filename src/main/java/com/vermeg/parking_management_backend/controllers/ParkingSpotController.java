@@ -100,4 +100,9 @@ public class ParkingSpotController {
         parkingSpotService.deleteParkingSpot(id);
         return ResponseEntity.noContent().build();
     }
+    @PostMapping("/reset")
+    public ResponseEntity<String> resetAllSpots() {
+        parkingSpotService.resetAllSpotsToAvailableAtMidnight();
+        return ResponseEntity.ok("All spots have been reset to available.");
+    }
 }

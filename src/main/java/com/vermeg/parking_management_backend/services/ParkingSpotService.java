@@ -2,8 +2,9 @@ package com.vermeg.parking_management_backend.services;
 
 import com.vermeg.parking_management_backend.entities.ParkingSpot;
 import com.vermeg.parking_management_backend.repositories.ParkingSpotRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,4 +37,9 @@ public class ParkingSpotService {
     }
 
     public static void deleteParkingSpot(Long id) { parkingSpotRepo.deleteById(id); }
+    @Scheduled(cron = "0 5 1 * * ?", zone = "Europe/Paris")// Triggers at 00:00 every day
+    @Transactional
+    public void resetAllSpotsToAvailableAtMidnight() {
+        parkingSpotRepo.resetAllSpotsToAvailable();
+    }
 }
