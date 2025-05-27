@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 @Table(name = "spots")
 public class ParkingSpot {
     @Id
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "spot_id")
+    private Long spot_id;
 
     @Column(name = "department")
     private String department;
@@ -19,8 +19,8 @@ public class ParkingSpot {
 
 
     // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getspot_id() { return spot_id; }
+    public void setspot_id(Long spot_id) { this.spot_id = spot_id; }
 
     public String getDepartment() { return department; }
     public void setDepartment(String department) { this.department = department; }

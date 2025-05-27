@@ -11,10 +11,9 @@ import java.util.List;
 
 @Repository
 public interface ParkingSpotRepo extends JpaRepository<ParkingSpot, Long> {
-    ParkingSpot findById(long id);
+    ParkingSpot findById(long spot_id);
 
-    long Id(long id);
-    @Query("SELECT s FROM ParkingSpot s ORDER BY s.id ASC")
+    @Query("SELECT s FROM ParkingSpot s ORDER BY s.spot_id ASC")
     List<ParkingSpot> findAllSortedById();
     @Modifying
     @Transactional

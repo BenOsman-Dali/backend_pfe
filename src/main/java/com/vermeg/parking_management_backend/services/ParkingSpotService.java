@@ -20,24 +20,24 @@ public class ParkingSpotService {
         return parkingSpotRepo.findAllSortedById();
     }
 
-    public ParkingSpot getParkingSpotById(Long id) {
-        return parkingSpotRepo.findById(id).orElseThrow(() -> new RuntimeException("ParkingSpot not found with id: " + id));
+    public ParkingSpot getParkingSpotById(Long spot_id) {
+        return parkingSpotRepo.findById(spot_id).orElseThrow(() -> new RuntimeException("ParkingSpot not found with id: " + spot_id));
     }
     public ParkingSpot createParkingSpot(ParkingSpot parkingSpot) { return parkingSpotRepo.save(parkingSpot);}
 
-    public static ParkingSpot updateParkingSpot(Long id, ParkingSpot updatedParkingSpot) {
-        Optional<ParkingSpot> optionalParkingSpot = parkingSpotRepo.findById(id);
+    public static ParkingSpot updateParkingSpot(Long spot_id, ParkingSpot updatedParkingSpot) {
+        Optional<ParkingSpot> optionalParkingSpot = parkingSpotRepo.findById(spot_id);
         if (optionalParkingSpot.isPresent()) {
             ParkingSpot existingParkingSpot = optionalParkingSpot.get();
             existingParkingSpot.setAvailable(updatedParkingSpot.isAvailable());
             return parkingSpotRepo.save(existingParkingSpot);
         }else {
-            throw new RuntimeException("ParkingSpot not found with id: " + id);
+            throw new RuntimeException("ParkingSpot not found with id: " + spot_id);
         }
     }
 
-    public static void deleteParkingSpot(Long id) { parkingSpotRepo.deleteById(id); }
-    @Scheduled(cron = "0 5 1 * * ?", zone = "Europe/Paris")// Triggers at 00:00 every day
+    public static void deleteParkingSpot(Long spot_id) { parkingSpotRepo.deleteById(spot_id); }
+    @Scheduled(cron = "0 18 15 * * ?", zone = "Europe/Paris")// Triggers at 00:00 every day
     @Transactional
     public void resetAllSpotsToAvailableAtMidnight() {
         parkingSpotRepo.resetAllSpotsToAvailable();

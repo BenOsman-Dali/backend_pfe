@@ -4,10 +4,6 @@ import com.vermeg.parking_management_backend.entities.User;
 import com.vermeg.parking_management_backend.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,11 +33,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{user_id}")
     @Operation(summary = "Get user by ID")
     public ResponseEntity<User> getUserById(
-            @Parameter(example = "user123") @PathVariable String id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+            @Parameter(example = "user123") @PathVariable String user_id) {
+        return ResponseEntity.ok(userService.getUserById(user_id));
     }
 
     @PostMapping
@@ -59,19 +55,25 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{user_id}")
     @Operation(summary = "Update user")
     public ResponseEntity<User> updateUser(
-            @Parameter(example = "user123") @PathVariable String id,
+            @Parameter(example = "user123") @PathVariable String user_id,
             @RequestBody User updatedUser) {
-        return ResponseEntity.ok(userService.updateUser(id, updatedUser));
+        return ResponseEntity.ok(userService.updateUser(user_id, updatedUser));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{user_id}")
     @Operation(summary = "Delete user")
     public ResponseEntity<Void> deleteUser(
-            @Parameter(example = "user123") @PathVariable String id) {
-        userService.deleteUser(id);
+            @Parameter(example = "user123") @PathVariable String user_id) {
+        userService.deleteUser(user_id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/reset")
+    public ResponseEntity<String> resetAllUsers() {
+        userService.resetAllUsersToFalseAtMidnight();
+        return ResponseEntity.ok("All user have been reset to didn't-booked.");
     }
 }

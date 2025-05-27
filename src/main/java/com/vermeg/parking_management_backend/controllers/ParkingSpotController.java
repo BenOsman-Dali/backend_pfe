@@ -38,14 +38,14 @@ public class ParkingSpotController {
         return ResponseEntity.ok(spots);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{spot_id}")
     @Operation(summary = "Get parking spot by ID", description = "Retrieves a specific parking spot by its ID")
     @ApiResponse(responseCode = "200", description = "Parking spot found")
     @ApiResponse(responseCode = "404", description = "Parking spot not found")
     public ResponseEntity<ParkingSpot> getParkingSpotById(
             @Parameter(description = "ID of the parking spot to be retrieved", example = "1")
-            @PathVariable Long id) {
-        ParkingSpot spot = parkingSpotService.getParkingSpotById(id);
+            @PathVariable Long spot_id) {
+        ParkingSpot spot = parkingSpotService.getParkingSpotById(spot_id);
         return ResponseEntity.ok(spot);
     }
 
@@ -70,13 +70,13 @@ public class ParkingSpotController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedSpot);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{spot_id}")
     @Operation(summary = "Update parking spot", description = "Updates an existing parking spot's information")
     @ApiResponse(responseCode = "200", description = "Parking spot updated successfully")
     @ApiResponse(responseCode = "404", description = "Parking spot not found")
     public ResponseEntity<ParkingSpot> updateParkingSpot(
             @Parameter(description = "ID of the parking spot to be updated", example = "1")
-            @PathVariable Long id,
+            @PathVariable Long spot_id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Updated parking spot object",
                     required = true,
@@ -86,18 +86,18 @@ public class ParkingSpotController {
                     )
             )
             @RequestBody ParkingSpot updatedSpot) {
-        ParkingSpot spot = parkingSpotService.updateParkingSpot(id, updatedSpot);
+        ParkingSpot spot = parkingSpotService.updateParkingSpot(spot_id, updatedSpot);
         return ResponseEntity.ok(spot);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{spot_id}")
     @Operation(summary = "Delete parking spot", description = "Deletes a parking spot by its ID")
     @ApiResponse(responseCode = "204", description = "Parking spot deleted successfully")
     @ApiResponse(responseCode = "404", description = "Parking spot not found")
     public ResponseEntity<Void> deleteParkingSpot(
             @Parameter(description = "ID of the parking spot to be deleted", example = "1")
-            @PathVariable Long id) {
-        parkingSpotService.deleteParkingSpot(id);
+            @PathVariable Long spot_id) {
+        parkingSpotService.deleteParkingSpot(spot_id);
         return ResponseEntity.noContent().build();
     }
     @PostMapping("/reset")

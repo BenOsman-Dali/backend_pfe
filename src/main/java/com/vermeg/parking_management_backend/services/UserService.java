@@ -4,7 +4,9 @@ import com.vermeg.parking_management_backend.entities.User;
 import com.vermeg.parking_management_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -28,10 +30,10 @@ public class UserService {
     public User createUser(User newUser) {
         try {
             // Validate required fields
-            if (!StringUtils.hasText(newUser.getId())) {
+            if (!StringUtils.hasText(newUser.getuser_id())) {
                 throw new IllegalArgumentException("User ID is required");
             }
-            if (userRepository.existsById(newUser.getId())) {
+            if (userRepository.existsById(newUser.getuser_id())) {
                 throw new IllegalArgumentException("User ID already exists");
             }
             if (!StringUtils.hasText(newUser.getEmail())) {
@@ -52,10 +54,16 @@ public class UserService {
         existingUser.setFirstName(updatedUser.getFirstName());
         existingUser.setLastName(updatedUser.getLastName());
         existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        existingUser.setBookedToday(updatedUser.getBookedToday());
         return userRepository.save(existingUser);
     }
 
     public void deleteUser(String id) {
         userRepository.deleteById(id);
+    }
+    @Scheduled(cron = "0 18 15 * * ?", zone = "Europe/Paris")// Triggers at 00:00 every day
+    @Transactional
+    public void resetAllUsersToFalseAtMidnight() {
+        userRepository.resetAllUsersToFalse();
     }
 }
