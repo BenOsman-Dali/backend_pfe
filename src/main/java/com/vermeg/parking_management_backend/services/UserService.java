@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -23,43 +24,24 @@ public class UserService {
     }
 
     public User getUserById(String id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
 
-    public User createUser(User newUser) {
-        try {
-            // Validate required fields
-            if (!StringUtils.hasText(newUser.getuser_id())) {
-                throw new IllegalArgumentException("User ID is required");
-            }
-            if (userRepository.existsById(newUser.getuser_id())) {
-                throw new IllegalArgumentException("User ID already exists");
-            }
-            if (!StringUtils.hasText(newUser.getEmail())) {
-                throw new IllegalArgumentException("Email is required");
-            }
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
 
-            return userRepository.save(newUser);
-        } catch (Exception e) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Failed to create user: " + e.getMessage()
-            );
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+
+    public boolean deleteUser(String id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return true;
         }
-    }
-
-    public User updateUser(String id, User updatedUser) {
-        User existingUser = getUserById(id); // Will throw if not found
-        existingUser.setFirstName(updatedUser.getFirstName());
-        existingUser.setLastName(updatedUser.getLastName());
-        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
-        existingUser.setBookedToday(updatedUser.getBookedToday());
-        return userRepository.save(existingUser);
-    }
-
-    public void deleteUser(String id) {
-        userRepository.deleteById(id);
+        return false;
     }
     @Scheduled(cron = "0 18 15 * * ?", zone = "Europe/Paris")// Triggers at 00:00 every day
     @Transactional

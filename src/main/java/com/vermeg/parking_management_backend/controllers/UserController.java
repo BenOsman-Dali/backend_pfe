@@ -16,59 +16,40 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
-@Tag(name = "User Management", description = "Operations related to user management")
-@CrossOrigin("*")
 public class UserController {
 
-    private final UserService userService;
-
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping
-    @Operation(summary = "Get all users")
     public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+        List<User> users = userService.getAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/{user_id}")
-    @Operation(summary = "Get user by ID")
-    public ResponseEntity<User> getUserById(
-            @Parameter(example = "user123") @PathVariable String user_id) {
-        return ResponseEntity.ok(userService.getUserById(user_id));
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable String id) {
+        User user = userService.getUserById(id);
+        return user != null ? new ResponseEntity<>(user, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    @Operation(summary = "Create new user")
-    public ResponseEntity<?> createUser(@RequestBody User newUser) {
-        try {
-            User createdUser = userService.createUser(newUser);
-            return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode())
-                    .body(Map.of("error", e.getReason()));
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError()
-                    .body(Map.of("error", "Unexpected error occurred"));
-        }
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User savedUser = userService.saveUser(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{user_id}")
-    @Operation(summary = "Update user")
-    public ResponseEntity<User> updateUser(
-            @Parameter(example = "user123") @PathVariable String user_id,
-            @RequestBody User updatedUser) {
-        return ResponseEntity.ok(userService.updateUser(user_id, updatedUser));
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
+        user.setId(id);
+        User updatedUser = userService.updateUser(user);
+        return updatedUser != null ? new ResponseEntity<>(updatedUser, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/{user_id}")
-    @Operation(summary = "Delete user")
-    public ResponseEntity<Void> deleteUser(
-            @Parameter(example = "user123") @PathVariable String user_id) {
-        userService.deleteUser(user_id);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+        boolean deleted = userService.deleteUser(id);
+        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/reset")

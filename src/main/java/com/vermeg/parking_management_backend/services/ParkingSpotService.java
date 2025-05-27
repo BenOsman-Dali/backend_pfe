@@ -37,7 +37,7 @@ public class ParkingSpotService {
     }
 
     public static void deleteParkingSpot(Long spot_id) { parkingSpotRepo.deleteById(spot_id); }
-    @Scheduled(cron = "0 18 15 * * ?", zone = "Europe/Paris")// Triggers at 00:00 every day
+    @Scheduled(cron = "0 0 1 * * ?", zone = "Europe/Paris")// Triggers at 00:00 every day
     @Transactional
     public void resetAllSpotsToAvailableAtMidnight() {
         parkingSpotRepo.resetAllSpotsToAvailable();
