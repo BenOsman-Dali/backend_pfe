@@ -1,7 +1,6 @@
 package com.vermeg.parking_management_backend.entities;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -22,11 +21,8 @@ public class User {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "booked_today", nullable = false, columnDefinition = "BOOLEAN DEFAULT FALSE")
-    private boolean bookedToday = false;
-
     @Column(name = "booked_spot_id")
-    private String bookedSpotId;
+    private Long bookedSpotId;
 
     // Getters and Setters
 
@@ -70,19 +66,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean isBookedToday() {
-        return bookedToday;
-    }
-
-    public void setBookedToday(boolean bookedToday) {
-        this.bookedToday = bookedToday;
-    }
-
-    public String getBookedSpotId() {
+    public Long getBookedSpotId() {
         return bookedSpotId;
     }
 
-    public void setBookedSpotId(String bookedSpotId) {
+    public void setBookedSpotId(Long bookedSpotId) {
         this.bookedSpotId = bookedSpotId;
     }
 }

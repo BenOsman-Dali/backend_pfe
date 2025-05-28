@@ -11,12 +11,25 @@ import java.util.List;
 
 @Repository
 public interface ParkingSpotRepo extends JpaRepository<ParkingSpot, Long> {
+
+    // Find by ID
     ParkingSpot findById(long spot_id);
 
+    // Get all spots sorted by ID
     @Query("SELECT s FROM ParkingSpot s ORDER BY s.spot_id ASC")
     List<ParkingSpot> findAllSortedById();
+
+    // Reset all spots to available (true)
     @Modifying
     @Transactional
     @Query("UPDATE ParkingSpot p SET p.isAvailable = true")
     void resetAllSpotsToAvailable();
+
+    // Count booked spots (isAvailable = false)
+    @Query("SELECT COUNT(*) FROM ParkingSpot WHERE isAvailable = false")
+    int countBookedSpots();
+
+    // Count non-booked (available) spots
+    @Query("SELECT COUNT(*) FROM ParkingSpot WHERE isAvailable = true")
+    int countNonBookedSpots(); // ✔️ Corrected method name casing
 }

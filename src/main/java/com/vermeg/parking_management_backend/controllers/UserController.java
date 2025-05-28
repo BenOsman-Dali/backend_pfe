@@ -43,18 +43,12 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
         user.setId(id);
         User updatedUser = userService.updateUser(user);
-        return updatedUser != null ? new ResponseEntity<>(updatedUser, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.ok(updatedUser); // Make sure this is not null
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         boolean deleted = userService.deleteUser(id);
         return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PostMapping("/reset")
-    public ResponseEntity<String> resetAllUsers() {
-        userService.resetAllUsersToFalseAtMidnight();
-        return ResponseEntity.ok("All user have been reset to didn't-booked.");
     }
 }

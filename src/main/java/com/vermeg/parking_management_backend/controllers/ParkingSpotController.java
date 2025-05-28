@@ -105,4 +105,14 @@ public class ParkingSpotController {
         parkingSpotService.resetAllSpotsToAvailableAtMidnight();
         return ResponseEntity.ok("All spots have been reset to available.");
     }
+    @GetMapping("/booked-percentage")
+    public ResponseEntity<Integer> getBookedPercentage() {
+        int percentage = parkingSpotService.getBookedPercentage();
+        return ResponseEntity.ok(percentage);
+    }
+    @GetMapping("/non-booked-percentage")
+    public ResponseEntity<Integer> getNonBookedPercentage() {
+        int percentage = parkingSpotService.getNonBookedPercentage();
+        return ResponseEntity.ok(percentage);
+    }
 }

@@ -42,4 +42,23 @@ public class ParkingSpotService {
     public void resetAllSpotsToAvailableAtMidnight() {
         parkingSpotRepo.resetAllSpotsToAvailable();
     }
+
+    public int getBookedSpotsCount() {
+        return parkingSpotRepo.countBookedSpots();
+    }
+
+    public int getBookedPercentage() {
+        int bookedCount = getBookedSpotsCount();
+        return Math.round(((float) bookedCount / 27) * 100);
+    }
+
+    public int getNonBookedSpotsCount() {
+        return parkingSpotRepo.countNonBookedSpots(); // Make sure it matches repo
+    }
+
+    public int getNonBookedPercentage() {
+        int nonBookedCount = getNonBookedSpotsCount();
+        return Math.round(((float) nonBookedCount / 27) * 100);
+    }
+
 }
