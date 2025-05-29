@@ -40,4 +40,8 @@ public class UserService {
         }
         return false;
     }
+
+    public int getnbUsers() {
+        return userRepository.countUsers(); // Make sure it matches repo
+    }
 }

@@ -51,4 +51,10 @@ public class UserController {
         boolean deleted = userService.deleteUser(id);
         return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/number")
+    public ResponseEntity<Integer> getnbUsers() {
+        int nbUsers = userService.getnbUsers();
+        return ResponseEntity.ok(nbUsers);
+    }
 }
