@@ -115,4 +115,22 @@ public class ParkingSpotController {
         int percentage = parkingSpotService.getNonBookedPercentage();
         return ResponseEntity.ok(percentage);
     }
+
+    @GetMapping("/numberNeuchatel")
+    public ResponseEntity<Integer> getnbNeuchatelSpots() {
+        int nbUsers = parkingSpotService.getnbNeuchatelSpots();
+        return ResponseEntity.ok(nbUsers);
+    }
+
+    @GetMapping("/numberConstance")
+    public ResponseEntity<Integer> getnbConstanceSpots() {
+        int nbUsers = parkingSpotService.getnbConstanceSpots();
+        return ResponseEntity.ok(nbUsers);
+    }
+
+    @GetMapping("/numberBiwa")
+    public ResponseEntity<Integer> getnbBiwaSpots() {
+        int nbUsers = parkingSpotService.getnbBiwaSpots();
+        return ResponseEntity.ok(nbUsers);
+    }
 }

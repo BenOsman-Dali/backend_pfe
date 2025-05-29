@@ -61,4 +61,16 @@ public class ParkingSpotService {
         return Math.round(((float) nonBookedCount / 27) * 100);
     }
 
+    public int getnbNeuchatelSpots() {
+        return parkingSpotRepo.countNeuchatelSpots(); // Make sure it matches repo
+    }
+
+    public int getnbConstanceSpots() {
+        return parkingSpotRepo.countConstanceSpots(); // Make sure it matches repo
+    }
+
+    public int getnbBiwaSpots() {
+        return parkingSpotRepo.countBiwaSpots(); // Make sure it matches repo
+    }
+
 }

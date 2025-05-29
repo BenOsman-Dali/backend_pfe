@@ -31,5 +31,14 @@ public interface ParkingSpotRepo extends JpaRepository<ParkingSpot, Long> {
 
     // Count non-booked (available) spots
     @Query("SELECT COUNT(*) FROM ParkingSpot WHERE isAvailable = true")
-    int countNonBookedSpots(); // ✔️ Corrected method name casing
+    int countNonBookedSpots();// ✔️ Corrected method name casing
+
+    @Query("SELECT COUNT(*) FROM ParkingSpot WHERE department = 'neuchatel'")
+    int countNeuchatelSpots();
+
+    @Query("SELECT COUNT(*) FROM ParkingSpot WHERE department = 'constance'")
+    int countConstanceSpots();
+
+    @Query("SELECT COUNT(*) FROM ParkingSpot WHERE department = 'biwa'")
+    int countBiwaSpots();
 }
