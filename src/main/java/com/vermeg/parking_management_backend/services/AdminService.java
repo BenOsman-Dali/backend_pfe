@@ -3,39 +3,39 @@ package com.vermeg.parking_management_backend.services;
 import com.vermeg.parking_management_backend.entities.Administrator;
 import com.vermeg.parking_management_backend.repositories.AdminRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdminService {
 
+    private final AdminRepo adminRepo;
+
     @Autowired
-    private AdminRepo AdminRepo;
+    public AdminService(AdminRepo adminRepo) {
+        this.adminRepo = adminRepo;
+    }
 
     public List<Administrator> getAllAdministrators() {
-        return AdminRepo.findAll();
+        return adminRepo.findAll();
     }
 
     public Administrator getAdministratorById(String id) {
-        Optional<Administrator> Administrator = AdminRepo.findById(id);
-        return Administrator.orElse(null);
+        return adminRepo.findById(id).orElse(null);
     }
 
-    public Administrator saveAdministrator(Administrator Administrator) {
-        return AdminRepo.save(Administrator);
+    public Administrator saveAdministrator(Administrator administrator) {
+        return adminRepo.save(administrator);
     }
 
-    public Administrator updateAdministrator(Administrator Administrator) {
-        return AdminRepo.save(Administrator);
+    public Administrator updateAdministrator(Administrator administrator) {
+        return adminRepo.save(administrator);
     }
 
     public boolean deleteAdministrator(String id) {
-        if (AdminRepo.existsById(id)) {
-            AdminRepo.deleteById(id);
+        if (adminRepo.existsById(id)) {
+            adminRepo.deleteById(id);
             return true;
         }
         return false;

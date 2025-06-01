@@ -3,9 +3,7 @@ package com.vermeg.parking_management_backend.services;
 import com.vermeg.parking_management_backend.entities.User;
 import com.vermeg.parking_management_backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;

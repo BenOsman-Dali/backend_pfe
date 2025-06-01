@@ -1,5 +1,7 @@
 package com.vermeg.parking_management_backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import jakarta.persistence.*;
 
 @Entity
@@ -17,8 +19,21 @@ public class Administrator {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false, unique = true)
+    @Column(name = "pwd", nullable = false)
+    @JsonProperty
     private String password;
+
+    //constructors
+    public Administrator() {
+    }
+
+    public Administrator(String admin_id, String firstName, String lastName, String email, String password) {
+        this.admin_id = admin_id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
 
 
     // Getters and Setters
@@ -52,5 +67,14 @@ public class Administrator {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+
     }
 }

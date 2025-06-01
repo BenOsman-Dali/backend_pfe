@@ -41,4 +41,5 @@ public interface ParkingSpotRepo extends JpaRepository<ParkingSpot, Long> {
 
     @Query("SELECT COUNT(*) FROM ParkingSpot WHERE department = 'biwa'")
     int countBiwaSpots();
+
 }

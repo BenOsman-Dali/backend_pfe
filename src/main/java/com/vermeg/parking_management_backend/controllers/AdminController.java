@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Administrators")
+@RequestMapping("/api/admins")
 public class AdminController {
 
     @Autowired
@@ -29,9 +29,10 @@ public class AdminController {
     }
 
     @PostMapping
-    public ResponseEntity<Administrator> createAdministrator(@RequestBody Administrator Administrator) {
-        Administrator savedAdministrator = AdminService.saveAdministrator(Administrator);
-        return new ResponseEntity<>(savedAdministrator, HttpStatus.CREATED);
+    public Administrator createAdmin(@RequestBody Administrator admin) {
+        Administrator saved = AdminService.saveAdministrator(admin);
+        System.out.println("Debug - Password: " + saved.getPassword());
+        return saved;
     }
 
     @PutMapping("/{id}")

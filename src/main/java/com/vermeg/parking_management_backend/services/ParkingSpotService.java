@@ -53,7 +53,7 @@ public class ParkingSpotService {
     }
 
     public int getNonBookedSpotsCount() {
-        return parkingSpotRepo.countNonBookedSpots(); // Make sure it matches repo
+        return parkingSpotRepo.countNonBookedSpots();
     }
 
     public int getNonBookedPercentage() {
@@ -61,16 +61,19 @@ public class ParkingSpotService {
         return Math.round(((float) nonBookedCount / 27) * 100);
     }
 
+    private int neuchatelCounter;
     public int getnbNeuchatelSpots() {
-        return parkingSpotRepo.countNeuchatelSpots(); // Make sure it matches repo
+        neuchatelCounter = parkingSpotRepo.countNeuchatelSpots();
+        return neuchatelCounter;
     }
 
     public int getnbConstanceSpots() {
-        return parkingSpotRepo.countConstanceSpots(); // Make sure it matches repo
+        return parkingSpotRepo.countConstanceSpots();
     }
 
     public int getnbBiwaSpots() {
-        return parkingSpotRepo.countBiwaSpots(); // Make sure it matches repo
+        return parkingSpotRepo.countBiwaSpots();
     }
 
 }
+
