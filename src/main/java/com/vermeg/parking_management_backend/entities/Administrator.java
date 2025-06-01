@@ -3,11 +3,10 @@ package com.vermeg.parking_management_backend.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "admins")
+public class Administrator {
     @Id
-    private String id;
-
+    private String admin_id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -18,19 +17,17 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "phone_number", nullable = false)
-    private String phoneNumber;
+    @Column(name = "password", nullable = false, unique = true)
+    private String password;
 
-    @Column(name = "booked_spot_id")
-    private Long bookedSpotId;
 
     // Getters and Setters
-    public String getId() {
-        return id;
+    public String getAdmin_id() {
+        return admin_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setAdmin_id(String admin_id) {
+        this.admin_id = admin_id;
     }
 
     public String getFirstName() {
@@ -55,21 +52,5 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Long getBookedSpotId() {
-        return bookedSpotId;
-    }
-
-    public void setBookedSpotId(Long bookedSpotId) {
-        this.bookedSpotId = bookedSpotId;
     }
 }
